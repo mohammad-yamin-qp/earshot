@@ -1,0 +1,14 @@
+# Earshot bar toggle: shows whether the earshot daemon is recording and starts/stops it.
+# Talks to the daemon's local HTTP API (see ~/Projects/earshot).
+
+id          = "yamin/earshot"
+name        = "Earshot"
+version     = "1.0.0"
+plugin_api  = 43
+author      = "yamin"
+icon        = "microphone"
+description = "Toggle earshot room recording from the bar."
+
+[[widget]]
+id    = "toggle"
+entry = "widget.luau"

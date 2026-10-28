@@ -1,0 +1,7 @@
+#!/bin/sh
+# Toggle recording; for niri keybinds / panel buttons. Prints the new state.
+state=$(curl -fsS -X POST http://127.0.0.1:8787/api/toggle) || { notify-send -u critical Earshot "daemon not running"; exit 1; }
+case "$state" in
+  *'"recording":true'*) notify-send -i audio-input-microphone Earshot "Recording started"; echo on ;;
+  *) notify-send -i microphone-sensitivity-muted Earshot "Recording stopped"; echo off ;;
+esac
