@@ -48,6 +48,28 @@ Then open `http://<laptop-ip>:8787` (or `http://<hostname>.local:8787` with Avah
 and use **Add to Home Screen**. To require a password, set `EARSHOT_PASSWORD`. Clients then
 need basic auth with any username, except localhost, which is always allowed.
 
+### Access from anywhere (Tailscale)
+
+Install [Tailscale](https://tailscale.com) on the laptop and the phone and sign in to the same
+tailnet. Allow the port on the Tailscale interface:
+
+```sh
+sudo ufw allow in on tailscale0 to any port 8787 proto tcp
+```
+
+Then open `http://<machine-name>:8787` (MagicDNS) or `http://100.x.y.z:8787` from the phone,
+on any network. Live audio uses about 30 MB/hour of mobile data.
+
+For HTTPS with a real certificate, which makes the home-screen app behave better on iOS:
+
+```sh
+sudo tailscale serve --bg 8787   # → https://<machine>.<tailnet>.ts.net
+```
+
+Requests through `serve` arrive from localhost, which `EARSHOT_PASSWORD` doesn't check, so use
+the plain `:8787` URL if you rely on the password. Never use `tailscale funnel`, which would
+make the mic public.
+
 ### Start at boot
 
 User services start at login. To have earshot running after an unattended reboot, enable
